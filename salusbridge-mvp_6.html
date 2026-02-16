@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salusbridge - Connecting Healthcare Together</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .nav-buttons button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            margin-left: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        /* User Type Cards */
+        .user-types {
+            max-width: 1200px;
+            margin: -50px auto 4rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .user-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .user-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .user-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .user-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .user-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .user-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            display: none;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-container.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .dashboard-header h2 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .dashboard-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Feature Sections */
+        .feature-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-item:hover {
+            background: #f8f9fa;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Back button */
+        .back-btn {
+            background: #f8f9fa;
+            color: #667eea;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+        }
+
+        /* Hide landing when dashboard is active */
+        .landing-content.hidden {
+            display: none;
+        }
+
+        .appointment-slot {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .message-preview {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            margin-bottom: 0.8rem;
+            border-radius: 4px;
+        }
+
+        .message-preview strong {
+            color: #667eea;
+        }
+
+        .quick-action {
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .user-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons button {
+                padding: 0.5rem 1rem;
+                margin-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">S</div>
+                <span>Salusbridge</span>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="showSection('landing')">Home</button>
+                <button onclick="alert('Demo: Login functionality would go here')">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Landing Content -->
+    <div class="landing-content" id="landingContent">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Connecting Workers, Employers and Healthcare Providers to Keep the Nation Working</h1>
+                <p>The integrated SaaS platform transforming UK workplace health management.</p>
+            </div>
+        </section>
+
+        <!-- User Type Cards -->
+        <section class="user-types">
+            <div class="user-card" onclick="showDashboard('employee')">
+                <div class="user-card-icon">👤</div>
+                <h3>For Employees</h3>
+                <p>Take control of your workplace health</p>
+                <ul>
+                    <li>Submit sick notes digitally</li>
+                    <li>Access wellbeing resources and guidance</li>
+                    <li>Create return-to-work plans</li>
+                    <li>Request workplace adjustments</li>
+                </ul>
+            </div>
+
+            <div class="user-card" onclick="showDashboard('employer')">
+                <div class="user-card-icon">🏢</div>
+                <h3>For Employers</h3>
+                <p>Support your workforce and reduce absence</p>
+                <ul>
+                    <li>Track absence and return-to-work rates</li>
+                    <li>Get manager guidance for difficult conversations</li>
+                    <li>Connect with OH and EAP providers</li>
+                    <li>Analytics and benchmarking insights</li>
+                </ul>
+            </div>
+
+            <div class="user-card" onclick="showDashboard('provider')">
+                <div class="user-card-icon">⚕️</div>
+                <h3>For Healthcare Providers</h3>
+                <p>Streamline occupational health services</p>
+                <ul>
+                    <li>Receive employer referrals seamlessly</li>
+                    <li>Share case notes securely</li>
+                    <li>Track intervention outcomes</li>
+                    <li>Grow your client base</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Section -->
+    <section style="background: white; padding: 4rem 2rem; text-align: center; margin-top: 4rem;">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #667eea; margin-bottom: 1rem; font-size: 2rem;">Get in Touch</h2>
+            <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
+                Interested in learning more about SalusBridge? We'd love to hear from you.
+            </p>
+            <a href="mailto:rob.crowley@salusbridge.com" style="text-decoration: none;">
+                <button class="btn" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    📧 Contact Us
+                </button>
+            </a>
+        </div>
+    </section>
+
+    <!-- Employee Dashboard -->
+    <div class="dashboard-container" id="employeeDashboard">
+        <button class="back-btn" onclick="showSection('landing')">← Back to Home</button>
+        
+        <div class="dashboard-header">
+            <h2>Welcome back, Sarah!</h2>
+            <p>Your workplace health portal</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Days Off This Year</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Active Return-to-Work Plan</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Wellbeing Resources Accessed</div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📋 Your Return-to-Work Plan</h3>
+            <div class="feature-list">
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Week 1: Part-time hours (20 hrs/week)</strong><br>
+                        <small>Feb 13-17 • Working from home</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-info">Current Phase</span>
+                    </div>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Week 2-3: Reduced hours (30 hrs/week)</strong><br>
+                        <small>Feb 20 - Mar 3 • Hybrid working</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-warning">Upcoming</span>
+                    </div>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Week 4+: Full return (37.5 hrs/week)</strong><br>
+                        <small>Target: Mar 6 onwards</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-warning">Planned</span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" onclick="alert('Demo: Discuss plan with manager')" style="margin-top: 1rem;">📞 Request Plan Review</button>
+        </div>
+
+        <div class="feature-section">
+            <h3>🏥 Workplace Adjustments</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>Ergonomic desk chair</strong><br>
+                        <small>Requested: Feb 1, 2026</small>
+                    </div>
+                    <span class="badge badge-success">Approved</span>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Flexible working hours</strong><br>
+                        <small>Requested: Feb 5, 2026</small>
+                    </div>
+                    <span class="badge badge-success">Approved</span>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="alert('Demo: Request new adjustment')">+ Request Adjustment</button>
+        </div>
+
+        <div class="feature-section">
+            <h3>💬 Messages</h3>
+            <div class="message-preview">
+                <strong>Line Manager - James</strong> • This morning<br>
+                Hope you're settling back in well. Let me know if you need anything adjusted for this week.
+            </div>
+            <div class="message-preview">
+                <strong>HR Team</strong> • Yesterday<br>
+                Your occupational health appointment is scheduled for Feb 20 at 10:00 AM (video call).
+            </div>
+            <button class="btn btn-secondary" onclick="alert('Demo: View all messages')">View All Messages</button>
+        </div>
+
+        <div class="feature-section">
+            <h3>📚 Wellbeing Resources</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>Mental Health Support - EAP Access</strong><br>
+                        <small>Free confidential counselling available</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: Access EAP')">Access</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Stress Management Workshop</strong><br>
+                        <small>Next session: Feb 22, 2:00 PM</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: Register')">Register</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Workplace Adjustments Guide</strong><br>
+                        <small>Learn what support is available</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View guide')">View</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📝 Quick Actions</h3>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Submit sick note')">Submit Sick Note</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Update return plan')">Update Return Plan</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Book OH appointment')">Book OH Appointment</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: View absence history')">View Absence History</button></div>
+        </div>
+    </div>
+
+    <!-- Employer Dashboard -->
+    <div class="dashboard-container" id="employerDashboard">
+        <button class="back-btn" onclick="showSection('landing')">← Back to Home</button>
+        
+        <div class="dashboard-header">
+            <h2>TechCorp UK - HR Dashboard</h2>
+            <p>Workplace Health Management</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Current Absences</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">4.2%</div>
+                <div class="stat-label">Absence Rate (vs 5.1% industry avg)</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Active Return-to-Work Plans</div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>👥 Team Absences - Requiring Action</h3>
+            <div class="feature-list">
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Sarah Johnson</strong> - Engineering<br>
+                        <small>Day 28 of absence • Mental health - stress • <span class="badge badge-info">Return plan active</span></small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View employee details')">Manage</button>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Michael Roberts</strong> - Sales<br>
+                        <small>Day 14 of absence • Musculoskeletal • <span class="badge badge-warning">OH referral recommended</span></small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Make OH referral')">Refer to OH</button>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Emma Davis</strong> - Marketing<br>
+                        <small>Day 3 of absence • Illness • <span class="badge badge-success">Check-in scheduled: Feb 20</span></small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View employee details')">View</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📊 Analytics & Insights</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>Mental Health Absences Trending Up</strong><br>
+                        <small>+35% vs last quarter - Consider wellbeing workshop</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: View recommendations')">View Details</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Engineering Team: High Stress Indicators</strong><br>
+                        <small>AI recommendation: Early intervention suggested</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: View team insights')">View Team</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Return-to-Work Success Rate: 89%</strong><br>
+                        <small>Above industry average (71%) - Great work!</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View report')">View Report</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>⚕️ Occupational Health Providers</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>OH Assist UK</strong><br>
+                        <small>18 active referrals • Avg response: 3 days</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: Make referral')">Make Referral</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Workplace Wellbeing Ltd - EAP</strong><br>
+                        <small>Employee assistance program • 24/7 support</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View provider details')">View Details</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Add New Provider</strong><br>
+                        <small>Browse marketplace for OH, EAP, physio providers</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Browse providers')">Browse Marketplace</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>💬 Manager Guidance</h3>
+            <div class="message-preview">
+                <strong>How to conduct a return-to-work meeting</strong><br>
+                Step-by-step guidance with conversation prompts and legal compliance checks built-in.
+                <button class="btn btn-secondary" onclick="alert('Demo: View guidance')" style="margin-top: 0.5rem;">View Guide</button>
+            </div>
+            <div class="message-preview">
+                <strong>Reasonable adjustments: Quick reference</strong><br>
+                Templates and best practices for workplace adjustments requests.
+                <button class="btn btn-secondary" onclick="alert('Demo: View templates')" style="margin-top: 0.5rem;">View Templates</button>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📈 Quick Actions</h3>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: View full absence dashboard')">View Full Dashboard</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Generate ROI report')">Generate ROI Report</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Download benchmarking data')">Industry Benchmarking</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Configure alerts')">Configure Alerts</button></div>
+        </div>
+    </div>
+
+    <!-- Healthcare Provider Dashboard -->
+    <div class="dashboard-container" id="providerDashboard">
+        <button class="back-btn" onclick="showSection('landing')">← Back to Home</button>
+        
+        <div class="dashboard-header">
+            <h2>OH Assist UK - Provider Portal</h2>
+            <p>Occupational Health Service Management</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="stat-number">47</div>
+                <div class="stat-label">Active Cases</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Employer Clients</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">New Referrals This Week</div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📋 New Referrals - Requiring Action</h3>
+            <div class="feature-list">
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Referral #REF-2026-482</strong><br>
+                        <small>Employee: M. Roberts • Employer: TechCorp UK<br>
+                        Condition: Musculoskeletal (back pain) • Duration: 14 days</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Accept referral and schedule')">Accept & Schedule</button>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Referral #REF-2026-483</strong><br>
+                        <small>Employee: J. Smith • Employer: FinServe Ltd<br>
+                        Condition: Mental health (work stress) • Duration: 21 days</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Accept referral and schedule')">Accept & Schedule</button>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Referral #REF-2026-484</strong><br>
+                        <small>Employee: A. Williams • Employer: Retail Co<br>
+                        Condition: Post-surgery assessment • Duration: 42 days</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Accept referral and schedule')">Accept & Schedule</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📅 Upcoming Appointments</h3>
+            <div class="feature-list">
+                <div class="appointment-slot">
+                    <div>
+                        <strong>Sarah Johnson</strong> - TechCorp UK<br>
+                        <small>Today, 2:00 PM • Video consultation • Follow-up assessment</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-info">Today</span>
+                        <button class="btn btn-secondary" onclick="alert('Demo: Open case notes')">View Case</button>
+                    </div>
+                </div>
+                <div class="appointment-slot">
+                    <div>
+                        <strong>David Chen</strong> - Marketing Plus<br>
+                        <small>Tomorrow, 10:30 AM • In-person • Initial assessment</small>
+                    </div>
+                    <div>
+                        <span class="badge badge-success">Confirmed</span>
+                        <button class="btn btn-secondary" onclick="alert('Demo: Open case notes')">View Case</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📝 Reports Pending Submission</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>Case #OH-2026-891</strong> - Sarah Johnson<br>
+                        <small>Assessment completed Feb 12 • Report due: Feb 14</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Complete report')">Complete Report</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Case #OH-2026-889</strong> - Robert Lee<br>
+                        <small>Assessment completed Feb 11 • Report due: Feb 13</small>
+                    </div>
+                    <button class="btn" onclick="alert('Demo: Complete report')">Complete Report</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>🏢 Employer Clients</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>TechCorp UK</strong><br>
+                        <small>18 active cases • 245 employees covered</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View client details')">View Details</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>FinServe Ltd</strong><br>
+                        <small>8 active cases • 112 employees covered</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View client details')">View Details</button>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Retail Co</strong><br>
+                        <small>12 active cases • 487 employees covered</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="alert('Demo: View client details')">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>📊 Performance Metrics</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div>
+                        <strong>Average Response Time: 2.8 days</strong><br>
+                        <small>Target: 3 days • Performance: Excellent</small>
+                    </div>
+                    <span class="badge badge-success">On Target</span>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Successful Return to Work Rate: 87%</strong><br>
+                        <small>Industry average: 71%</small>
+                    </div>
+                    <span class="badge badge-success">Above Average</span>
+                </div>
+                <div class="feature-item">
+                    <div>
+                        <strong>Client Satisfaction Score: 4.7/5</strong><br>
+                        <small>Based on 45 recent reviews</small>
+                    </div>
+                    <span class="badge badge-success">Excellent</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>🔍 Quick Actions</h3>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: View all cases')">View All Cases</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Generate monthly report')">Monthly Report</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Update availability')">Update Availability</button></div>
+            <div class="quick-action"><button class="btn" onclick="alert('Demo: Marketplace profile')">Manage Profile</button></div>
+        </div>
+    </div>
+
+    <script>
+        function showDashboard(type) {
+            // Hide landing content
+            document.getElementById('landingContent').classList.add('hidden');
+            
+            // Hide all dashboards
+            document.getElementById('employeeDashboard').classList.remove('active');
+            document.getElementById('employerDashboard').classList.remove('active');
+            document.getElementById('providerDashboard').classList.remove('active');
+            
+            // Show selected dashboard
+            if (type === 'employee') {
+                document.getElementById('employeeDashboard').classList.add('active');
+            } else if (type === 'employer') {
+                document.getElementById('employerDashboard').classList.add('active');
+            } else if (type === 'provider') {
+                document.getElementById('providerDashboard').classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function showSection(section) {
+            if (section === 'landing') {
+                // Show landing content
+                document.getElementById('landingContent').classList.remove('hidden');
+                
+                // Hide all dashboards
+                document.getElementById('employeeDashboard').classList.remove('active');
+                document.getElementById('employerDashboard').classList.remove('active');
+                document.getElementById('providerDashboard').classList.remove('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
+</body>
+</html>
